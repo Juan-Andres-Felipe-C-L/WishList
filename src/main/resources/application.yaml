@@ -3,7 +3,7 @@ spring:
     name: WishList
   
   datasource:
-    url: jdbc:mysql://localhost3360/WishList
+    url: jdbc:mysql://localhost:3306/WishList
     username: root
     password: "0000"
     driver-class-name: com.mysql.cj.jdbc.Driver
