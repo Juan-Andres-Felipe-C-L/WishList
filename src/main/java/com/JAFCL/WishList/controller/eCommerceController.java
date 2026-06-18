@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.JAFCL.WishList.dto.CatalogResponseDTO;
 import com.JAFCL.WishList.dto.HttpGlobalResponse;
+import com.JAFCL.WishList.dto.MessageResponseDTO;
 import com.JAFCL.WishList.dto.ProductResponseDTO;
-import com.JAFCL.WishList.service.CatalogService;
+import com.JAFCL.WishList.dto.RegisterRequestDTO;
+import com.JAFCL.WishList.service.eCommerceService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,9 +22,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/e-commerce")
 @RequiredArgsConstructor
-public class CatalogController {
+public class eCommerceController {
     
-    private final CatalogService catalogService;
+    private final eCommerceService eCommerceService;
 
     /**
      * El método "... getCatalogs" acude al objeto 'catalogService' para que use su método que trae toda 
@@ -29,7 +33,7 @@ public class CatalogController {
      */
     @GetMapping("/getCatalogs")
     public HttpGlobalResponse<List<CatalogResponseDTO>> getCatalogs() {
-        HttpGlobalResponse<List<CatalogResponseDTO>> response = catalogService.getCatalogs();
+        HttpGlobalResponse<List<CatalogResponseDTO>> response = eCommerceService.getCatalogs();
         return response;
     }
 
@@ -42,9 +46,15 @@ public class CatalogController {
      */
     @GetMapping("/getProducts/{idCatalogo}")
     public HttpGlobalResponse<List<ProductResponseDTO>> getProducts(@PathVariable Long idCatalogo) {
-        HttpGlobalResponse<List<ProductResponseDTO>> response = catalogService.getProducts(idCatalogo);
+        HttpGlobalResponse<List<ProductResponseDTO>> response = eCommerceService.getProducts(idCatalogo);
         return response;
     
+    }
+
+    @PostMapping("/user/addProducts")
+    public MessageResponseDTO addProducts(@RequestBody List<RegisterRequestDTO> requestList) {
+        MessageResponseDTO response = eCommerceService.addProducts(requestList);        
+        return response;
     }
 
 }
