@@ -23,5 +23,5 @@ public class WishListResponseDTO {
     /**
      * Producto no eliminado en lista de deseos.
      */
-    private boolean activo;
+    private String activo;
 }

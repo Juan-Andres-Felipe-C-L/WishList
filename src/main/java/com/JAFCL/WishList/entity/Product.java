@@ -1,11 +1,10 @@
 package com.JAFCL.WishList.entity;
 
-import jakarta.persistence.Id;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -19,7 +18,7 @@ public class Product {
     private Long id;
 
     @Column(name = "id_catalogo")
-    private int idCatalogo;
+    private Long idCatalogo;
 
     @Column(name = "nombre")
     private String nombre;
