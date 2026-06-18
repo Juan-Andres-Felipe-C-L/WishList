@@ -15,13 +15,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class WishListController {
     
-    private final WishListService wishListService;
 
-    @GetMapping("/getWishList")   
-    public HttpGlobalResponse<List<ProductResponseDTO>> getWishList() {
-        HttpGlobalResponse<List<ProductResponseDTO>> response = wishListService.getWishList();
-        return response;
-    }
-
-    public MessageResponseDTO addProduct()
 }

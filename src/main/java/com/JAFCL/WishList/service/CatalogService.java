@@ -18,25 +18,24 @@ public class CatalogService {
 
     private final CatalogRepository catalogRepository;
     /**
-     * El método "... getProducts" trae toda la información de los productos de la empresa, que están almacenados 
-     * en los repositorios, para luego mostrarlos en el endpoint del catálogo de la API-REST de la empresa.
-     * @return = Este pedazo de código devuelve una lista de formato JSON con todos los productos actuales de la
+     * El método "... getCatalogs" trae toda la información de los catálogos de la empresa, que están almacenados 
+     * en los repositorios, para luego mostrarlos en el endpoint de la API-REST de la empresa.
+     * @return = Este pedazo de código devuelve una lista de formato JSON con todos los catágolos actuales de la
      * empresa.
      */
-    public HttpGlobalResponse<List<CatalogResponseDTO>> getProducts() {
+    public HttpGlobalResponse<List<CatalogResponseDTO>> getCatalogs() {
         HttpGlobalResponse<List<CatalogResponseDTO>> response = new HttpGlobalResponse<List<CatalogResponseDTO>>();
-        List<CatalogResponseDTO> catalog = new ArrayList<>();
-        List<Catalog> productsFound = catalogRepository.findAll();
-        for(Catalog product : productsFound) {
-            CatalogResponseDTO finalProduct = new CatalogResponseDTO();
-            finalProduct.setId(product.getId());
-            finalProduct.setNombre(product.getNombre());
-            finalProduct.setPrecio(product.getPrecio());
-            finalProduct.setCantidad(product.getCantidad());
-            catalog.add(finalProduct);
+        List<CatalogResponseDTO> Catalogs = new ArrayList<>();
+        List<Catalog> catalogsFound = catalogRepository.findAll();
+        for(Catalog catalog : catalogsFound) {
+            CatalogResponseDTO finalCatalog = new CatalogResponseDTO();
+            finalCatalog.setId(catalog.getId());
+            finalCatalog.setNombre(catalog.getNombre());
+            
+            Catalogs.add(finalCatalog);
         }
-        response.setData(catalog);
-        response.setMessage("Éste es el catálogo de productos de la compañia Carvajal.");
+        response.setData(Catalogs);
+        response.setMessage("Éstos son los diferentes catálogos de la compañia Carvajal.");
         return response;
     }
     

@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("/catalog")
+@RequestMapping("/e-commerce")
 @RequiredArgsConstructor
 public class CatalogController {
     
     private final CatalogService catalogService;
 
-    @GetMapping("/getProducts")
-    public HttpGlobalResponse<List<CatalogResponseDTO>> getProducts() {
-        HttpGlobalResponse<List<CatalogResponseDTO>> response = catalogService.getProducts();
+    @GetMapping("/getCatalogs")
+    public HttpGlobalResponse<List<CatalogResponseDTO>> getCatalogs() {
+        HttpGlobalResponse<List<CatalogResponseDTO>> response = catalogService.getCatalogs();
         return response;
     }
     
