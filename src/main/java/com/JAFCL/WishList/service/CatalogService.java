@@ -17,7 +17,12 @@ import lombok.RequiredArgsConstructor;
 public class CatalogService {
 
     private final CatalogRepository catalogRepository;
-
+    /**
+     * El método "... getProducts" trae toda la información de los productos de la empresa, que están almacenados 
+     * en los repositorios, para luego mostrarlos en el endpoint del catálogo de la API-REST de la empresa.
+     * @return = Este pedazo de código devuelve una lista de formato JSON con todos los productos actuales de la
+     * empresa.
+     */
     public HttpGlobalResponse<List<CatalogResponseDTO>> getProducts() {
         HttpGlobalResponse<List<CatalogResponseDTO>> response = new HttpGlobalResponse<List<CatalogResponseDTO>>();
         List<CatalogResponseDTO> catalog = new ArrayList<>();
@@ -31,7 +36,7 @@ public class CatalogService {
             catalog.add(finalProduct);
         }
         response.setData(catalog);
-        response.setMessage("Este es el catálogo de productos de la compañia Carvajal.");
+        response.setMessage("Éste es el catálogo de productos de la compañia Carvajal.");
         return response;
     }
     

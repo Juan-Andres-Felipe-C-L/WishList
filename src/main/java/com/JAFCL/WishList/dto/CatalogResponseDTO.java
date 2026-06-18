@@ -5,19 +5,11 @@ import lombok.Data;
 @Data
 public class CatalogResponseDTO {    
      /**
-     * I.D. con el que se identifica el producto.
+     * I.D. con el que se identifica el catálogo.
      */
     private Long id;
     /**
-     * Nombre del producto.
+     * Nombre del catalógo.
      */
     private String nombre;
-    /**
-     * El precio total de todos los ejemplares del producto a llevar.
-     */
-    private double precio;
-    /**
-     * Cantidad de ejemplares del producto.
-     */
-    private int cantidad;
 }

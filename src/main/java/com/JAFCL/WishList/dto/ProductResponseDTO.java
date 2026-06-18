@@ -9,19 +9,19 @@ public class ProductResponseDTO {
      */
     private Long id;
     /**
+     * I.D. del catálogo al que pertenece el producto.
+     */
+    private Long idCatalogo;
+    /**
      * Nombre del producto.
      */
     private String nombre;
     /**
-     * El precio total de todos los ejemplares del producto a llevar.
+     * Número de unidades en stock.
      */
-    private double precioTotal;
+    private int stock;
     /**
-     * Cantidad de ejemplares del producto.
+     * El precio de un ejemplar del producto.
      */
-    private int cantidad;
-    /**
-     * Estado del producto en la wishlist.
-     */
-    private boolean pedido;
+    private double precioUnitario;
 }

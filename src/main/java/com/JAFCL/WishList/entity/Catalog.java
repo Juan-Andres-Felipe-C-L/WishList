@@ -19,10 +19,4 @@ public class Catalog {
 
     @Column(name = "nombre")
     private String nombre;
-
-    @Column(name = "precio")
-    private double precio;
-
-    @Column(name = "cantidad")
-    private int cantidad;
 }

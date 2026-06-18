@@ -14,15 +14,18 @@ public class WishList {
     @Id
     private Long id;
 
+    @Column(name = "id_producto")
+    private int idProducto;
+
     @Column(name = "nombre")
     private String nombre;
-
-    @Column(name = "precio_total")
-    private double precioTotal;
 
     @Column(name = "cantidad")
     private int cantidad;
 
-    @Column(name = "pedido")
-    private boolean pedido;
+    @Column(name = "precio_total")
+    private double precioTotal;
+
+    @Column(name = "activo")
+    private boolean activo;
 }
