@@ -11,7 +11,7 @@ public class WishListResponseDTO {
     /**
      * I.D. del producto anexado a la lista de deseos.
      */
-    private int idProducto;
+    private Long idProducto;
     /**
      * Nombre del producto.
      */

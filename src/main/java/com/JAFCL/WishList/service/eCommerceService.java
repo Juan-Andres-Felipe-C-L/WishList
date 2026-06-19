@@ -104,7 +104,7 @@ public class eCommerceService {
                 Product product = productFound.get();
                 
                 WishList wish = new WishList();
-                wish.setIdProducto(product.getId().intValue());
+                wish.setIdProducto(product.getId());
                 wish.setNombre(product.getNombre());
                 wish.setCantidad(request.getCantidad());
                 wish.setPrecioTotal(request.getCantidad() * product.getPrecioUnitario());
@@ -167,13 +167,9 @@ public class eCommerceService {
             product.setStock(product.getStock() + wish.getCantidad());
 
             wish.setCantidad(cantidad);
-            
-            int cantidadAnterior = wish.getCantidad();
-            wish.setCantidad(request.getCantidad());
-            wish.setPrecioTotal(request.getCantidad() * product.getPrecioUnitario());
+            wish.setPrecioTotal(cantidad * product.getPrecioUnitario());
+            product.setStock(product.getStock() - cantidad);
             wishListRepository.save(wish);
-
-            product.setStock(product.getStock() + cantidadAnterior - request.getCantidad());
             productRepository.save(product);
 
             finalWish.setIdDeseo(wish.getId());
@@ -181,12 +177,11 @@ public class eCommerceService {
             finalWish.setNombre(wish.getNombre());
             finalWish.setCantidad(wish.getCantidad());
             finalWish.setPrecioTotal(wish.getPrecioTotal());
-            if (!wish.isActivo()) {
-                finalWish.setActivo("ELIMINADO."); 
-                } else {
-                    finalWish.setActivo("Sí.");
-                }
-            
+                if (!wish.isActivo()) {
+                    finalWish.setActivo("ELIMINADO."); 
+                    } else {
+                        finalWish.setActivo("Sí.");
+                    }            
             response.setData(finalWish);
             response.setMessage("Producto actualizado exitosamente.");
 
