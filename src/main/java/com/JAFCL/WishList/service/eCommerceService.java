@@ -152,7 +152,12 @@ public class eCommerceService {
         }
         return response;
     }
-
+    /**
+     * Método que permite actualizar la cantidad de ejemplares de un producto en la lista de deseos del usuario.
+     * @param idDeseo = Es el I.D. del producto que se quiere actualizar, el cual se pasa como parametro por medio del endpoint.
+     * @param cantidad = Es la nueva cantidad que se quiere establecer para el producto.
+     * @return = Devuelve un mensaje que demuestra si el producto fue actualizado exitosamente o no.
+     */
     public HttpGlobalResponse<WishListResponseDTO> upDateProduct(Long idDeseo, int cantidad) {
         HttpGlobalResponse<WishListResponseDTO> response = new HttpGlobalResponse<WishListResponseDTO>();
         WishListResponseDTO finalWish = new WishListResponseDTO();
@@ -188,5 +193,27 @@ public class eCommerceService {
         }
         return response;
     }
-        
+    /**
+     * Método que permite eliminar un prodcuto de la lista de deseos del usuario. En realidad, el producto no se elimina,
+     * sino que se marca como "ELIMINADO" y se actualiza el stock del producto en la empresa.
+     * @param idDeseo = Es el I.D. del producto que se quiere eliminar, el cual se pasa como parametro por medio del endpoint.
+     * @return = Devuelve un mensaje que demuestra si el producto fue eliminado exitosamente o no.
+     */
+    public MessageResponseDTO deleteProduct(Long idDeseo) {
+        MessageResponseDTO response = new MessageResponseDTO();
+        Optional<WishList> wishFound = wishListRepository.findById(idDeseo);
+        if (wishFound.isEmpty()) {
+            response.setMessage("I.D. de producto no encontrado.");
+        } else {
+            WishList wish = wishFound.get();
+            Optional<Product> productFound = productRepository.findById(wish.getIdProducto());        
+            Product product = productFound.get();
+            product.setStock(product.getStock() + wish.getCantidad());
+            wish.setActivo(false);
+            wishListRepository.save(wish);
+            productRepository.save(product);
+            response.setMessage("Producto eliminado exitosamente de la lista de deseos.");
+        }
+        return response;
+    }
 }

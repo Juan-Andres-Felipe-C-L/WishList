@@ -2,6 +2,7 @@ package com.JAFCL.WishList.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,6 +88,18 @@ public class eCommerceController {
     @PutMapping("/user/up-date-quantity-product/{idDeseo}/{cantidad}")
     public HttpGlobalResponse<WishListResponseDTO> upDateProduct(@PathVariable Long idDeseo, @PathVariable int cantidad) {
         HttpGlobalResponse<WishListResponseDTO> response = eCommerceService.upDateProduct(idDeseo, cantidad);
+        return response;
+    }
+
+    /**
+     * Método que permite eliminar un prodcuto de la lista de deseos del usuario. En realidad, el producto no se elimina, 
+     * sino que se marca como inactivo.
+     * @param idDeseo = Es el I.D. del producto que se quiere eliminar, el cual se pasa como parametro por medio del endpoint.
+     * @return = Devuelve un mensaje que demuestra si el producto fue eliminado exitosamente o no.
+     */
+    @DeleteMapping("/user/delete-product/{idDeseo}")
+    public MessageResponseDTO deleteProduct(@PathVariable Long idDeseo) {
+        MessageResponseDTO response = eCommerceService.deleteProduct(idDeseo);
         return response;
     }
     
