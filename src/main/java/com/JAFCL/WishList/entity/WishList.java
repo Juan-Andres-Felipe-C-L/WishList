@@ -17,7 +17,7 @@ public class WishList {
     private Long id;
 
     @Column(name = "id_producto")
-    private int idProducto;
+    private Long idProducto;
 
     @Column(name = "nombre")
     private String nombre;

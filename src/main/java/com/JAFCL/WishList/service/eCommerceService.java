@@ -153,17 +153,45 @@ public class eCommerceService {
         return response;
     }
 
-    /*public HttpGlobalResponse<WishListResponseDTO> upDateProduct(int idProducto, RegisterRequestDTO request) {
+    public HttpGlobalResponse<WishListResponseDTO> upDateProduct(Long idDeseo, int cantidad) {
         HttpGlobalResponse<WishListResponseDTO> response = new HttpGlobalResponse<WishListResponseDTO>();
+        WishListResponseDTO finalWish = new WishListResponseDTO();
 
-
-        Optional<WishList> wishFound = wishListRepository.findByIdProducto(idProducto);
+        Optional<WishList> wishFound = wishListRepository.findById(idDeseo);
         if (wishFound.isEmpty()) {
             response.setMessage("I.D. de producto no encontrado.");
         } else {
             WishList wish = wishFound.get();
+            Optional<Product> productFound = productRepository.findById(wish.getIdProducto());        
+            Product product = productFound.get();
+            product.setStock(product.getStock() + wish.getCantidad());
+
+            wish.setCantidad(cantidad);
+            
+            int cantidadAnterior = wish.getCantidad();
+            wish.setCantidad(request.getCantidad());
+            wish.setPrecioTotal(request.getCantidad() * product.getPrecioUnitario());
+            wishListRepository.save(wish);
+
+            product.setStock(product.getStock() + cantidadAnterior - request.getCantidad());
+            productRepository.save(product);
+
+            finalWish.setIdDeseo(wish.getId());
+            finalWish.setIdProducto(wish.getIdProducto());
+            finalWish.setNombre(wish.getNombre());
+            finalWish.setCantidad(wish.getCantidad());
+            finalWish.setPrecioTotal(wish.getPrecioTotal());
+            if (!wish.isActivo()) {
+                finalWish.setActivo("ELIMINADO."); 
+                } else {
+                    finalWish.setActivo("Sí.");
+                }
+            
+            response.setData(finalWish);
+            response.setMessage("Producto actualizado exitosamente.");
+
         }
         return response;
-    }*/
+    }
         
 }

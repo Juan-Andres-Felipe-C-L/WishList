@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +19,6 @@ import com.JAFCL.WishList.dto.WishListResponseDTO;
 import com.JAFCL.WishList.service.eCommerceService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 
@@ -79,11 +78,16 @@ public class eCommerceController {
         return response;
     }
 
-    /* 
-    @PutMapping("/user/up-date-quantity-product/{idProducto}")
-    public HttpGlobalResponse<WishListResponseDTO> upDateProduct(@PathVariable int idProducto, @RequestBody RegisterRequestDTO request) {
-        HttpGlobalResponse<WishListResponseDTO> response = eCommerceService.upDateProduct(idProducto);      
+    /**
+     * Es un método que permite actualizar la cantidad de ejemplares de un producto en la lista de deseos del usuario.
+     * @param id = Es el I.D. del producto que se quiere actualizar, el cual se pasa como parametro por medio del endpoint.
+     * @param request = Es la información que se quiere actualizar del producto. Está en formato JSON.
+     * @return = Devuelve un mensaje que demuestra si el producto fue actualizado exitosamente o no.
+     */
+    @PutMapping("/user/up-date-quantity-product/{idDeseo}/{cantidad}")
+    public HttpGlobalResponse<WishListResponseDTO> upDateProduct(@PathVariable Long idDeseo, @PathVariable int cantidad) {
+        HttpGlobalResponse<WishListResponseDTO> response = eCommerceService.upDateProduct(idDeseo, cantidad);
         return response;
     }
-    */
+    
 }
