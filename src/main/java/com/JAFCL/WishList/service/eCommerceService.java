@@ -2,6 +2,7 @@ package com.JAFCL.WishList.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.JAFCL.WishList.dto.HttpGlobalResponse;
 import com.JAFCL.WishList.dto.MessageResponseDTO;
 import com.JAFCL.WishList.dto.ProductResponseDTO;
 import com.JAFCL.WishList.dto.RegisterRequestDTO;
+import com.JAFCL.WishList.dto.WishListResponseDTO;
 import com.JAFCL.WishList.entity.Catalog;
 import com.JAFCL.WishList.entity.Product;
 import com.JAFCL.WishList.entity.WishList;
@@ -80,12 +82,74 @@ public class eCommerceService {
         return response;
     }
 
-    public MessageResponseDTO addProducts(List<RegisterRequestDTO> requestList) {
-        MessageResponseDTO response = new MessageResponseDTO();
+    /**
+     * Este método recibe una lista de I.D.s de productos en fromato JSON y le asigna esos productos a la lista
+     * de deseos del usuario. También, permite que el stock de los productos de la empresa se actualice en el
+     * momento que el usuario agregue un producto a su lista.
+     * @param requestList= Lista en fromato JSON de los I.D.s de los productos y su cantidad.
+     * @retun = Lista de advertencias que indican si se agregaron exitosamente los productos a los favoritos
+     * del usuario.
+     */
+    public List<MessageResponseDTO> addProducts(List<RegisterRequestDTO> requestList) {
+        List<MessageResponseDTO> answerList = new ArrayList<>();
         for (RegisterRequestDTO request : requestList) {
-            WishList wish = new WishList();
-            wish.setId(request.getId());
+            MessageResponseDTO response = new MessageResponseDTO();
+            Optional<Product> productFound = productRepository.findById(request.getId());
+            
+            if(productFound.isEmpty()) {
+                response.setMessage("I.D. de producto que no existe.");
+                answerList.add(response);
+            } else {           
+
+                Product product = productFound.get();
+                
+                WishList wish = new WishList();
+                wish.setIdProducto(product.getId().intValue());
+                wish.setNombre(product.getNombre());
+                wish.setCantidad(request.getCantidad());
+                wish.setPrecioTotal(request.getCantidad() * product.getPrecioUnitario());
+                wishListRepository.save(wish);
+
+                product.setStock(product.getStock() - request.getCantidad());
+                productRepository.save(product);
+
+                response.setMessage("Prodcuto con I.D. de número " + request.getId() + " ha sido añadido satisfactoriamente a la lista de deseos.");
+                answerList.add(response);
+            }
         }
+        return answerList;
+    }
+
+    /**
+     * Aquí el objeto de la clase del 'Service' accede al repositorio de WishListRepository para retornar los
+     * productos que están contenidos en la lista de deseos del usuario.
+     * @return = Lista de productos en la lista de deseos en formato JSON.
+     */
+    public HttpGlobalResponse<List<WishListResponseDTO>> getWishList() {
+        HttpGlobalResponse<List<WishListResponseDTO>> response = new HttpGlobalResponse<List<WishListResponseDTO>>();
+        List<WishListResponseDTO> finalList = new ArrayList<>();
+        List<WishList> wishFound = wishListRepository.findAll();
+
+        if (wishFound.isEmpty()) {
+            response.setMessage("No hay productos añadidos a lista de deseos aún.");
+        } else {
+            for (WishList wish : wishFound) {
+                WishListResponseDTO finalWish = new WishListResponseDTO();
+                finalWish.setIdProducto(wish.getIdProducto());
+                finalWish.setNombre(wish.getNombre());
+                finalWish.setCantidad(wish.getCantidad());
+                finalWish.setPrecioTotal(wish.getPrecioTotal());
+                if (!wish.isActivo()) {
+                   finalWish.setActivo("ELIMINADO."); 
+                } else {
+                    finalWish.setActivo("PEDIDO.");
+                }
+                finalList.add(finalWish);              
+            }
+            response.setData(finalList);
+            response.setMessage("Estos son los productos añadidos a la lista de deseos.");
+        }
+        return response;
     }
         
 }

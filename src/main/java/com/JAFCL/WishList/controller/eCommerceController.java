@@ -14,9 +14,12 @@ import com.JAFCL.WishList.dto.HttpGlobalResponse;
 import com.JAFCL.WishList.dto.MessageResponseDTO;
 import com.JAFCL.WishList.dto.ProductResponseDTO;
 import com.JAFCL.WishList.dto.RegisterRequestDTO;
+import com.JAFCL.WishList.dto.WishListResponseDTO;
 import com.JAFCL.WishList.service.eCommerceService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -51,10 +54,28 @@ public class eCommerceController {
     
     }
 
+    /**
+     * Aquí el endpoint llama al objeto del 'Service' para que el usuario pueda agregar una lista de productos
+     * a su lista de deseos.
+     * @param requestList = Lista de productos en formato JSON.
+     * @return = Lista de advertencias que demuestran si los productos fueron agregados exitosamente.
+     */
     @PostMapping("/user/addProducts")
-    public MessageResponseDTO addProducts(@RequestBody List<RegisterRequestDTO> requestList) {
-        MessageResponseDTO response = eCommerceService.addProducts(requestList);        
+    public List<MessageResponseDTO> addProducts(@RequestBody List<RegisterRequestDTO> requestList) {
+        List<MessageResponseDTO> response = eCommerceService.addProducts(requestList);        
         return response;
     }
+
+    /**
+     * Este es el método que funciona para obtener todos los productos de la empresa que el usuario ha añadido
+     * a su lista de deseos.
+     * @return = Devuelve la lista de deseos en formato JSON.
+     */
+    @GetMapping("/user/getWishList")
+    public HttpGlobalResponse<List<WishListResponseDTO>> getWishList() {
+        HttpGlobalResponse<List<WishListResponseDTO>> response =  eCommerceService.getWishList();
+        return response;
+    }
+    
 
 }
