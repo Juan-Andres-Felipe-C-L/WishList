@@ -19,6 +19,8 @@ import com.JAFCL.WishList.service.eCommerceService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -76,6 +78,12 @@ public class eCommerceController {
         HttpGlobalResponse<List<WishListResponseDTO>> response =  eCommerceService.getWishList();
         return response;
     }
-    
 
+    /* 
+    @PutMapping("/user/up-date-quantity-product/{idProducto}")
+    public HttpGlobalResponse<WishListResponseDTO> upDateProduct(@PathVariable int idProducto, @RequestBody RegisterRequestDTO request) {
+        HttpGlobalResponse<WishListResponseDTO> response = eCommerceService.upDateProduct(idProducto);      
+        return response;
+    }
+    */
 }

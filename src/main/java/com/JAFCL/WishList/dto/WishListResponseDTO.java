@@ -5,6 +5,10 @@ import lombok.Data;
 @Data
 public class WishListResponseDTO {
     /**
+     * I.D. del deseo.
+     */
+    private Long idDeseo;
+    /**
      * I.D. del producto anexado a la lista de deseos.
      */
     private int idProducto;

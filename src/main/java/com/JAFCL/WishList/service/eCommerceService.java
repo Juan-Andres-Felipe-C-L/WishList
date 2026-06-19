@@ -135,6 +135,7 @@ public class eCommerceService {
         } else {
             for (WishList wish : wishFound) {
                 WishListResponseDTO finalWish = new WishListResponseDTO();
+                finalWish.setIdDeseo(wish.getId());
                 finalWish.setIdProducto(wish.getIdProducto());
                 finalWish.setNombre(wish.getNombre());
                 finalWish.setCantidad(wish.getCantidad());
@@ -142,7 +143,7 @@ public class eCommerceService {
                 if (!wish.isActivo()) {
                    finalWish.setActivo("ELIMINADO."); 
                 } else {
-                    finalWish.setActivo("PEDIDO.");
+                    finalWish.setActivo("Sí.");
                 }
                 finalList.add(finalWish);              
             }
@@ -151,5 +152,18 @@ public class eCommerceService {
         }
         return response;
     }
+
+    /*public HttpGlobalResponse<WishListResponseDTO> upDateProduct(int idProducto, RegisterRequestDTO request) {
+        HttpGlobalResponse<WishListResponseDTO> response = new HttpGlobalResponse<WishListResponseDTO>();
+
+
+        Optional<WishList> wishFound = wishListRepository.findByIdProducto(idProducto);
+        if (wishFound.isEmpty()) {
+            response.setMessage("I.D. de producto no encontrado.");
+        } else {
+            WishList wish = wishFound.get();
+        }
+        return response;
+    }*/
         
 }
